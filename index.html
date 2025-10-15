@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>اختبار تحليل الشخصية - أين تصنع الخير؟</title>
+  <style>
+    body {
+      font-family: "Tajawal", sans-serif;
+      background: linear-gradient(135deg, #f7f8fa, #dfe9f3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 700px;
+      padding: 30px;
+      text-align: center;
+    }
+    h1 {
+      color: #333;
+      font-size: 26px;
+      margin-bottom: 10px;
+    }
+    .question {
+      margin: 20px 0;
+      font-size: 18px;
+      font-weight: bold;
+      color: #444;
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    button {
+      background-color: #4e73df;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+    button:hover {
+      background-color: #2e59d9;
+    }
+    .option-btn {
+      background: #f1f1f1;
+      color: #333;
+    }
+    .option-btn:hover {
+      background: #cfd8f3;
+    }
+    #result {
+      font-size: 22px;
+      font-weight: bold;
+      color: #222;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🌟 أين تقدر تصنع الخير؟ 🌟</h1>
+    <div id="quiz">
+      <div class="question" id="question"></div>
+      <div class="options" id="options"></div>
+      <button id="nextBtn" style="display:none;">التالي ➡️</button>
+    </div>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    const questions = [
+      {q: "بتحب تتعامل مع الأطفال وتشرح لهم حاجات جديدة؟", t: "براعم"},
+      {q: "بتحب ترتب المكان وتنظمه بنفسك؟", t: "مجددون"},
+      {q: "بتستمتع بالحكي مع الناس الكبيرة في السن؟", t: "مسنين"},
+      {q: "بتحب تشارك في أنشطة رياضية أو بدنية؟", t: "أسقف"},
+      {q: "بتعرف تكتب محتوى أو تحكي قصة بطريقة جذابة؟", t: "براعم"},
+      {q: "بتحب تشتغل في بيئة منظمة ونظيفة؟", t: "مجددون"},
+      {q: "بتحب تتعامل مع ناس كتير وتضحك وتكسر الجليد؟", t: "عيني"},
+      {q: "بتحب تشتغل بإيدك وتصمم أو تبني حاجات؟", t: "أسقف"},
+      {q: "بتحب الطبخ أو التجهيز للحفلات؟", t: "براعم"},
+      {q: "بتحب تكون جزء من فريق بينظم فعاليات؟", t: "عيني"},
+      {q: "بتعرف تتعامل مع الأجهزة أو التفاصيل الدقيقة؟", t: "أسقف"},
+      {q: "بتحب النظام والهدوء؟", t: "مجددون"},
+      {q: "بتحب تزور ناس وتطمن عليهم؟", t: "مسنين"},
+      {q: "بتحب تفكر وتخطط أكتر من التنفيذ؟", t: "عيني"},
+      {q: "بتحب تشتغل في الجامع أو تنظيفه؟", t: "مجددون"},
+      {q: "بتحب تشارك في فعاليات للأطفال؟", t: "براعم"},
+      {q: "بتحب تكون بشوش وتتعامل مع الناس بحب؟", t: "عيني"},
+      {q: "بتحب المجهود البدني والمهام العملية؟", t: "أسقف"},
+      {q: "بتحب تسمع قصص الناس الكبار وتطمن عليهم؟", t: "مسنين"},
+      {q: "بتحب تنظم أفكارك قبل أي خطوة؟", t: "عيني"},
+    ];
+
+    const answers = {براعم:0, مجددون:0, عيني:0, أسقف:0, مسنين:0};
+    let current = 0;
+
+    const questionEl = document.getElementById("question");
+    const optionsEl = document.getElementById("options");
+    const nextBtn = document.getElementById("nextBtn");
+    const resultEl = document.getElementById("result");
+
+    function loadQuestion() {
+      if (current < questions.length) {
+        const q = questions[current];
+        questionEl.textContent = q.q;
+        optionsEl.innerHTML = `
+          <button class="option-btn" onclick="select('${q.t}')">نعم ✅</button>
+          <button class="option-btn" onclick="select('skip')">مش قوي 🤔</button>
+        `;
+      } else showResult();
+    }
+
+    function select(type) {
+      if (type !== "skip") answers[type]++;
+      current++;
+      loadQuestion();
+    }
+
+    function showResult() {
+      document.getElementById("quiz").style.display = "none";
+      const maxScore = Math.max(...Object.values(answers));
+      const best = Object.keys(answers).find(k => answers[k] === maxScore);
+      let desc = "";
+
+      switch(best) {
+        case "براعم": desc = "🌱 أنت مناسب للّجنة: براعم! بتحب الأطفال وبتعرف تشرح وتخطط."; break;
+        case "مجددون": desc = "🔁 أنت مناسب للّجنة: مجددون! بتحب النظافة والنظام والعمل داخل الجامع."; break;
+        case "عيني": desc = "👁️ أنت مناسب للّجنة: عيني! اجتماعي، بشوش، وبتحب التنظيم."; break;
+        case "أسقف": desc = "🧱 أنت مناسب للّجنة: أسقف! قوي ودقيق ومهندس التفكير."; break;
+        case "مسنين": desc = "🕊️ أنت مناسب للّجنة: مسنين! حنون، صبور، وبتحب الناس الكبيرة."; break;
+      }
+
+      resultEl.innerHTML = desc;
+    }
+
+    loadQuestion();
+  </script>
+</body>
+</html>
