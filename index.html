@@ -3,13 +3,70 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>اختبار اللجان</title>
+<title>اختبار اللجنة المناسبة</title>
 <style>
-  body { font-family: "Cairo", sans-serif; direction: rtl; text-align: center; background: #fafafa; }
-  .question { margin: 20px; font-size: 1.2em; }
-  button { padding: 10px 20px; margin: 10px; border: none; border-radius: 8px; cursor: pointer; font-size: 1em; }
-  .yes { background-color: #4CAF50; color: white; }
-  .no { background-color: #f44336; color: white; }
+  body {
+    font-family: "Cairo", sans-serif;
+    direction: rtl;
+    text-align: center;
+    background: #f9f9f9;
+    color: #222;
+    margin: 0;
+    padding: 0;
+  }
+
+  h1 {
+    background: linear-gradient(135deg, #008080, #4caf50);
+    color: white;
+    padding: 15px;
+    font-size: 1.5em;
+    margin: 0;
+  }
+
+  #quiz {
+    padding: 20px;
+  }
+
+  .question {
+    font-size: 1.2em;
+    margin: 20px 0;
+    line-height: 1.6;
+  }
+
+  button {
+    width: 80%;
+    max-width: 250px;
+    padding: 12px;
+    margin: 10px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  .yes {
+    background-color: #4caf50;
+    color: white;
+  }
+
+  .no {
+    background-color: #f44336;
+    color: white;
+  }
+
+  button:hover {
+    transform: scale(1.05);
+  }
+
+  #result {
+    font-size: 1.4em;
+    margin: 30px 20px;
+    padding: 20px;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 0 10px #ccc;
+  }
 </style>
 </head>
 <body>
@@ -31,7 +88,7 @@ const questions = [
   { text: "بتحب تاخد هدية وانت رايح تزور جدك أو جدتك؟", tag: "مسنين" },
   { text: "بتزور جدك وجدتك دايمًا وبتسأل عليهم؟", tag: "مسنين" },
   { text: "بتستمتع وانت قاعد تسمع قصص من جدك أو جدتك؟", tag: "مسنين" },
-  { text: "بتعرف تفتح مواضيع حلوة مع جدك أو جدتك؟", tag: "مسنين" },
+  { text: "بتعرف تفتح مواضيع حلوة معاهم؟", tag: "مسنين" },
   { text: "بتحس براحة لما تشوفهم مبسوطين وانت حواليهم؟", tag: "مسنين" },
 
   // مجددون
@@ -60,9 +117,9 @@ const resultDiv = document.getElementById("result");
 function showQuestion() {
   if (index < shuffled.length) {
     quizDiv.innerHTML = `
-      <div class="question">${index + 1}. ${shuffled[index].text}</div>
-      <button class="yes" onclick="answer('yes')">نعم</button>
-      <button class="no" onclick="answer('no')">لأ</button>
+      <div class="question">${index + 1} / ${shuffled.length}<br>${shuffled[index].text}</div>
+      <button class="yes" onclick="answer('yes')">نعم 👍</button><br>
+      <button class="no" onclick="answer('no')">لأ 👎</button>
     `;
   } else {
     showResult();
@@ -105,10 +162,7 @@ function showResult() {
     };
     resultDiv.textContent = `🤝 انت مزيج مميز اسمه "${comboNames[selected.join(',')]}"!`;
   } 
-  else {
-    resultDiv.textContent = `🔥 انت مميز وتقدر تشتغل في ${selected.join(" و ")}!`;
-  }
-}
+
 
 showQuestion();
 </script>
