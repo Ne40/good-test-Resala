@@ -162,7 +162,10 @@ function showResult() {
     };
     resultDiv.textContent = `🤝 انت مزيج مميز اسمه "${comboNames[selected.join(',')]}"!`;
   } 
-
+  else {
+    resultDiv.textContent = `🔥 انت مميز وتقدر تشتغل في ${selected.join(" و ")}!`;
+  }
+}
 
 showQuestion();
 </script>
